@@ -22,8 +22,8 @@ Roguelite/
 │  ├─ main.cpp
 │  ├─ ErrorHandling.h
 │  └─ Window.h
-├─ CMakeLists.txt
 ├─ build/          # created later by CMake
+├─ CMakeLists.txt
 ├─ README.md       # this file
 └─ .gitignore
 ```
