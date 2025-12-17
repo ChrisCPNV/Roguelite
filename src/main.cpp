@@ -1,46 +1,28 @@
+#include <windows.h>    // Required for WinMain, HINSTANCE, LPSTR
 #include <SDL3/SDL.h>
-#include <iostream>
 
-int main() {
-    // Initialize SDL
-    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
-        std::cerr << "SDL_Init Error: " << SDL_GetError() << std::endl;
-        return 1;
-    }
+int WINAPI WinMain(
+    HINSTANCE hInstance,
+    HINSTANCE hPrevInstance,
+    LPSTR lpCmdLine,
+    int nShowCmd
+) {
+    if (SDL_Init(SDL_INIT_VIDEO) < 0) return 1;
 
-    // Create window (width, height, flags)
-    SDL_Window* window = SDL_CreateWindow(
-        "Roguelite",
-        640,
-        480,
-        0 // flags
+    SDL_Window* win = SDL_CreateWindow(
+        "Hello Window",
+        700, 300, 0
     );
 
-    if (!window) {
-        std::cerr << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
-        SDL_Quit();
-        return 1;
-    }
-
-    // Event loop
     bool running = true;
-    SDL_Event event;
-
     while (running) {
-        // Poll all events
-        while (SDL_PollEvent(&event)) {
-            if (event.type == SDL_EVENT_QUIT) {
-                running = false;  // Close requested
-            }
+        SDL_Event e;
+        while (SDL_PollEvent(&e)) {
+            if (e.type == SDL_EVENT_QUIT) running = false;
         }
-
-        // Optional: delay to limit CPU usage
-        SDL_Delay(16); // ~60 FPS
+        SDL_Delay(16);
     }
 
-    // Clean up
-    SDL_DestroyWindow(window);
     SDL_Quit();
-
     return 0;
 }

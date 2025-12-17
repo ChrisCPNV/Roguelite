@@ -37,19 +37,22 @@ project(Roguelite LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Path to SDL3
+# Path to SDL3 development folder
 set(SDL3_PATH "C:/SDL3/x86_64-w64-mingw32")
 
 # Include SDL3 headers
 include_directories("${SDL3_PATH}/include")
 
-# Add executable
+# Add your executable
 add_executable(roguelite src/main.cpp)
 
-# Link SDL3 DLL import library
+# Link SDL3 DLL import library only
 target_link_libraries(roguelite
     "${SDL3_PATH}/lib/libSDL3.dll.a"
 )
+
+# Tell MinGW to build a Windows GUI app (no console)
+target_link_options(roguelite PRIVATE -mwindows)
 ```
 
 ---
@@ -57,47 +60,32 @@ target_link_libraries(roguelite
 ## Minimal main.cpp
 
 ```cpp
+#include <windows.h>    // Required for WinMain, HINSTANCE, LPSTR
 #include <SDL3/SDL.h>
-#include <iostream>
 
-int main() {
-    // Initialize SDL
-    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
-        std::cerr << "SDL_Init Error: " << SDL_GetError() << std::endl;
-        return 1;
-    }
+int WINAPI WinMain(
+    HINSTANCE hInstance,
+    HINSTANCE hPrevInstance,
+    LPSTR lpCmdLine,
+    int nShowCmd
+) {
+    if (SDL_Init(SDL_INIT_VIDEO) < 0) return 1;
 
-    // Create window (width, height, flags)
-    SDL_Window* window = SDL_CreateWindow(
-        "Roguelite",
-        640,
-        480,
-        0 // flags
+    SDL_Window* win = SDL_CreateWindow(
+        "Hello Window",
+        700, 300, 0
     );
 
-    if (!window) {
-        std::cerr << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
-        SDL_Quit();
-        return 1;
-    }
-
-    // Event loop
     bool running = true;
-    SDL_Event event;
-
     while (running) {
-        // Poll all events
-        while (SDL_PollEvent(&event)) {
-            if (event.type == SDL_EVENT_QUIT) {
-                running = false;  // Window close requested
-            }
+        SDL_Event e;
+        while (SDL_PollEvent(&e)) {
+            if (e.type == SDL_EVENT_QUIT) running = false;
         }
-        SDL_Delay(16); // ~60 FPS
+        SDL_Delay(16);
     }
 
-    SDL_DestroyWindow(window);
     SDL_Quit();
-
     return 0;
 }
 ```
@@ -170,6 +158,7 @@ mkdir build
 cd build
 cmake .. -G "MinGW Makefiles"
 mingw32-make
+cp C:/SDL3/x86_64-w64-mingw32/bin/SDL3.dll .
 ```
 
 This README provides all steps to **initialize, build, and run your SDL3 roguelite project** on Windows using MinGW.
