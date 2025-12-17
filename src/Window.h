@@ -3,9 +3,9 @@
 
 class Window {
 public:
-    Window(){
+    Window(const char* title) {
         SDLWindow = SDL_CreateWindow(
-            "Hello Window",
+            title,
             800, 300, 0
         );
 
@@ -22,13 +22,16 @@ public:
         SDL_UpdateWindowSurface(SDLWindow);
     }
 
+    // Get the SDL_Surface associated with the window
     SDL_Surface* GetSurface() const {
         return SDL_GetWindowSurface(SDLWindow);
     }
 
+    // Delete copy constructor and assignment operator to prevent copying
     Window(const Window&) = delete;
     Window& operator=(const Window&) = delete;
 
+    // Destructor to clean up the SDL_Window
     ~Window() {
       if (SDLWindow && SDL_WasInit(SDL_INIT_VIDEO)) {
         SDL_DestroyWindow(SDLWindow);

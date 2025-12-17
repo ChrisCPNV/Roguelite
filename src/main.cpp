@@ -1,10 +1,20 @@
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
+#include <iostream>
+#include <string>
 #include "Window.h"
 
 int main(int , char** ) {
     SDL_Init(SDL_INIT_VIDEO);
-    Window GameWindow;
+    std::string GameName{"Roguelite"};
+    Window GameWindow(GameName.c_str());
+
+    std::string Error{SDL_GetError()};
+    if (Error.empty()) {
+        std::cout << "There is no error";
+    } else {
+        std::cout << "Error: " << Error;
+    }
 
     bool isRunning = true;
     SDL_Event event;
