@@ -18,76 +18,13 @@ A minimal roguelite project using **C++17**, **SDL3**, and **CMake** on Windows 
 
 ```text
 Roguelite/
-├─ CMakeLists.txt
 ├─ src/
-│  └─ main.cpp
+│  ├─ main.cpp
+│  └─ Window.h
+├─ CMakeLists.txt
 ├─ build/          # created later by CMake
 ├─ README.md       # this file
 └─ .gitignore
-```
-
----
-
-## CMakeLists.txt
-
-```cmake
-cmake_minimum_required(VERSION 3.20)
-project(Roguelite LANGUAGES CXX)
-
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-# Path to SDL3 development folder
-set(SDL3_PATH "C:/SDL3/x86_64-w64-mingw32")
-
-# Include SDL3 headers
-include_directories("${SDL3_PATH}/include")
-
-# Add your executable
-add_executable(roguelite src/main.cpp)
-
-# Link SDL3 DLL import library only
-target_link_libraries(roguelite
-    "${SDL3_PATH}/lib/libSDL3.dll.a"
-)
-
-# Tell MinGW to build a Windows GUI app (no console)
-target_link_options(roguelite PRIVATE -mwindows)
-```
-
----
-
-## Minimal main.cpp
-
-```cpp
-#include <windows.h>    // Required for WinMain, HINSTANCE, LPSTR
-#include <SDL3/SDL.h>
-
-int WINAPI WinMain(
-    HINSTANCE hInstance,
-    HINSTANCE hPrevInstance,
-    LPSTR lpCmdLine,
-    int nShowCmd
-) {
-    if (SDL_Init(SDL_INIT_VIDEO) < 0) return 1;
-
-    SDL_Window* win = SDL_CreateWindow(
-        "Hello Window",
-        700, 300, 0
-    );
-
-    bool running = true;
-    while (running) {
-        SDL_Event e;
-        while (SDL_PollEvent(&e)) {
-            if (e.type == SDL_EVENT_QUIT) running = false;
-        }
-        SDL_Delay(16);
-    }
-
-    SDL_Quit();
-    return 0;
-}
 ```
 
 ---
