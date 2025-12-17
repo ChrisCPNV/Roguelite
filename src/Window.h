@@ -1,27 +1,38 @@
 #pragma once
 #include <SDL3/SDL.h>
-#include <iostream>
 
 class Window {
 public:
     Window(){
         SDLWindow = SDL_CreateWindow(
             "Hello Window",
-            700, 300,
-            SDL_WINDOW_RESIZABLE |
-            SDL_WINDOW_MINIMIZED
+            800, 300, 0
         );
+
+        const auto* Fmt{SDL_GetPixelFormatDetails(
+            GetSurface()->format
+        )};
+
+        SDL_FillSurfaceRect(
+            GetSurface(),
+            nullptr,
+            SDL_MapRGB(Fmt, nullptr, 50, 50, 50)
+        );
+
+        SDL_UpdateWindowSurface(SDLWindow);
+    }
+
+    SDL_Surface* GetSurface() const {
+        return SDL_GetWindowSurface(SDLWindow);
     }
 
     Window(const Window&) = delete;
     Window& operator=(const Window&) = delete;
 
     ~Window() {
-        if (SDLWindow && SDL_WasInit(SDL_INIT_VIDEO)) {
-            SDL_DestroyWindow(SDLWindow);
-        } else {
-            std::cout << "Skipping SDL_DestroyWindow\n";
-        }
+      if (SDLWindow && SDL_WasInit(SDL_INIT_VIDEO)) {
+        SDL_DestroyWindow(SDLWindow);
+      }
     }
 
 private:
