@@ -20,6 +20,7 @@ void HandleMotionEvent(
     << (float)GameWindow.GetHeight() - Event.y << '\n';
 }
 
+// Handle mouse button events
 void HandleButtonEvent(SDL_MouseButtonEvent& Event) {
   if (Event.button == SDL_BUTTON_RIGHT) {
     std::cout << "Right Click or Release\n";
@@ -31,6 +32,28 @@ void HandleButtonEvent(SDL_MouseButtonEvent& Event) {
   ) {
     std::cout << "Left Double Click\n";
   }
+}
+
+// Handle movement events
+void HandleMovement(SDL_KeyboardEvent& Event) {
+    const bool *key_states = SDL_GetKeyboardState(nullptr);
+    int directionX = 0;
+    int directionY = 0;
+
+    if (key_states[SDL_SCANCODE_W]) {
+        directionY -= 1;
+    }
+    if (key_states[SDL_SCANCODE_S]) {
+        directionY += 1;
+    }
+    if (key_states[SDL_SCANCODE_A]) {
+        directionX -= 1;
+    }
+    if (key_states[SDL_SCANCODE_D]) {
+        directionX += 1;
+    }
+    std::cout << "Movement Direction - X: "
+        << directionX << ", Y: " << directionY << '\n';
 }
 
 int main(int , char** ) {
@@ -56,7 +79,7 @@ int main(int , char** ) {
 
         while (SDL_PollEvent(&event)) {
             Rect.HandleEvent(event); 
-            
+
             if (event.type == SDL_EVENT_MOUSE_MOTION) {
               HandleMotionEvent(event.motion, GameWindow);
             } else if (event.type == SDL_EVENT_WINDOW_MOUSE_ENTER) {
@@ -68,6 +91,12 @@ int main(int , char** ) {
               event.type == SDL_EVENT_MOUSE_BUTTON_UP
             ) {
               HandleButtonEvent(event.button);
+            } else if (
+                event.type == SDL_EVENT_KEY_DOWN || 
+                event.type == SDL_EVENT_KEY_UP
+                ) {
+              HandleMovement(event.key);
+
             } else if (event.type == SDL_EVENT_QUIT) {
               isRunning = false;
             }

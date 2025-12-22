@@ -21,6 +21,7 @@ Roguelite/
 ├─ src/
 │  ├─ main.cpp
 │  ├─ ErrorHandling.h
+│  ├─ Rectangle.h
 │  └─ Window.h
 ├─ build/          # created later by CMake
 ├─ CMakeLists.txt
