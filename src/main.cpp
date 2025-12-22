@@ -4,20 +4,38 @@
 #include "Window.h"
 #include "ErrorHandling.h"
 
-void HandleEvent(SDL_Event& E) {
-    if (E.type == SDL_EVENT_QUIT) {
-        std::cout << "Quit event received.\n";
-    } else if (E.type == SDL_EVENT_KEY_DOWN) {
-        std::cout << "Key down pressed" << '\n';
-    } else if (E.type == SDL_EVENT_MOUSE_MOTION) {
-        std::cout << "Mouse moved" << '\n';
-    }
+void HandleMotionEvent(
+  SDL_MouseMotionEvent& Event,
+  Window& GameWindow
+) {
+  std::cout << "Mouse Motion Detected - "
+    << "x: " << Event.x
+    << ", y: " << Event.y;
+
+  std::cout << "\n  Distance from Right: "
+    << (float)GameWindow.GetWidth() - Event.x;
+
+  std::cout << "\n  Distance from Bottom: "
+    << (float)GameWindow.GetHeight() - Event.y << '\n';
+}
+
+void HandleButtonEvent(SDL_MouseButtonEvent& Event) {
+  if (Event.button == SDL_BUTTON_RIGHT) {
+    std::cout << "Right Click or Release\n";
+  }
+
+  if (Event.button == SDL_BUTTON_LEFT &&
+      Event.down &&
+      Event.clicks >= 2
+  ) {
+    std::cout << "Left Double Click\n";
+  }
 }
 
 int main(int , char** ) {
     std::cout << "Program started\n";
     std::cout.flush();
-    
+
     SDL_Init(SDL_INIT_VIDEO);
     std::string GameName{"Roguelite"};
     Window GameWindow(GameName.c_str());
@@ -35,11 +53,27 @@ int main(int , char** ) {
         SDL_PumpEvents();
 
         while (SDL_PollEvent(&event)) {
-            HandleEvent(event);
-            if (event.type == SDL_EVENT_QUIT) {
-                isRunning = false;
+            if (event.type == SDL_EVENT_MOUSE_MOTION) {
+              HandleMotionEvent(event.motion, GameWindow);
+            } else if (event.type == SDL_EVENT_WINDOW_MOUSE_ENTER) {
+              std::cout << "Mouse Entered Window\n";
+            } else if (event.type == SDL_EVENT_WINDOW_MOUSE_LEAVE) {
+              std::cout << "Mouse Left Window\n";
+            } else if (
+              event.type == SDL_EVENT_MOUSE_BUTTON_DOWN ||
+              event.type == SDL_EVENT_MOUSE_BUTTON_UP
+            ) {
+              HandleButtonEvent(event.button);
+            } else if (event.type == SDL_EVENT_QUIT) {
+              isRunning = false;
             }
         }
+
+        GameWindow.Render(); // Render background
+
+        // Render other game elements here
+
+        GameWindow.Update(); // Swap buffers / update window
     }
 
     SDL_Quit();

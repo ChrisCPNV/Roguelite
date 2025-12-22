@@ -6,23 +6,29 @@ public:
     Window(const char* title) {
         SDLWindow = SDL_CreateWindow(
             title,
-            800, 300, 0
+            GetWidth(), GetHeight(), 0
         );
+    }
 
-        const auto* Fmt{SDL_GetPixelFormatDetails(
+    int GetWidth() const { return 700; }
+    int GetHeight() const { return 300; }
+
+    void Render() {
+        const auto* Fmt = SDL_GetPixelFormatDetails(
             GetSurface()->format
-        )};
-
+        );
         SDL_FillSurfaceRect(
             GetSurface(),
             nullptr,
             SDL_MapRGB(Fmt, nullptr, 50, 50, 50)
         );
+    }
 
+    void Update() {
         SDL_UpdateWindowSurface(SDLWindow);
     }
 
-    // Get the SDL_Surface associated with the window
+        // Get the SDL_Surface associated with the window
     SDL_Surface* GetSurface() const {
         return SDL_GetWindowSurface(SDLWindow);
     }
