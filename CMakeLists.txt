@@ -18,5 +18,7 @@ target_link_libraries(roguelite
     "${SDL3_PATH}/lib/libSDL3.dll.a"
 )
 
-# Tell MinGW to build a Windows GUI app (no console)
-target_link_options(roguelite PRIVATE -mwindows)
+# Tell MinGW to build a Windows GUI app 
+# target_link_options(roguelite PRIVATE -mwindows)
+target_link_options(roguelite PRIVATE -mconsole)
+
