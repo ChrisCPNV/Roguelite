@@ -3,6 +3,7 @@
 #include <string>
 #include "Window.h"
 #include "ErrorHandling.h"
+#include "Rectangle.h"
 
 void HandleMotionEvent(
   SDL_MouseMotionEvent& Event,
@@ -39,6 +40,7 @@ int main(int , char** ) {
     SDL_Init(SDL_INIT_VIDEO);
     std::string GameName{"Roguelite"};
     Window GameWindow(GameName.c_str());
+    Rectangle Rect{SDL_Rect{50,50,50,50}};
 
     // Check for SDL errors after creating the window
     #ifdef ERROR_LOGGING
@@ -53,6 +55,8 @@ int main(int , char** ) {
         SDL_PumpEvents();
 
         while (SDL_PollEvent(&event)) {
+            Rect.HandleEvent(event); 
+            
             if (event.type == SDL_EVENT_MOUSE_MOTION) {
               HandleMotionEvent(event.motion, GameWindow);
             } else if (event.type == SDL_EVENT_WINDOW_MOUSE_ENTER) {
@@ -72,6 +76,7 @@ int main(int , char** ) {
         GameWindow.Render(); // Render background
 
         // Render other game elements here
+        Rect.Render(GameWindow.GetSurface());
 
         GameWindow.Update(); // Swap buffers / update window
     }
