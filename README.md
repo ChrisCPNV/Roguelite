@@ -20,8 +20,11 @@ A minimal roguelite project using **C++17**, **SDL3**, and **CMake** on Windows 
 Roguelite/
 ├─ src/
 │  ├─ main.cpp
+│  ├─ Button.cpp
 │  ├─ ErrorHandling.h
 │  ├─ Rectangle.h
+│  ├─ Button.h
+│  ├─ UI.h
 │  └─ Window.h
 ├─ build/          # created later by CMake
 ├─ CMakeLists.txt
