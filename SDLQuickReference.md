@@ -1,7 +1,7 @@
 
 # Quick References SDL3
 
-```text
+```cpp
 // SDL3 API Quick Reference
 //
 // https://libsdl.org/
