@@ -6,10 +6,12 @@ public:
     Window(const char* title) {
         SDLWindow = SDL_CreateWindow(
             title,
-            GetWidth(), GetHeight(), 0
+            GetWidth(), GetHeight(), 
+            SDL_WINDOW_RESIZABLE
         );
-    }
-
+        SDL_SetWindowMinimumSize(SDLWindow, 700, 300);
+    };
+    
     int GetWidth() const { return 700; }
     int GetHeight() const { return 300; }
 
