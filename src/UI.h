@@ -25,5 +25,5 @@ class UI {
     private:
         Rectangle A{SDL_Rect{50, 50, 50, 50}};
         Rectangle B{SDL_Rect{150, 50, 50, 50}};
-        Button C{*this, SDL_Rect{250, 50, 50, 50}};
+        Button C{*this, SDL_Rect{250, 50, 50, 50}, A};
 };

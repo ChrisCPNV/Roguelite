@@ -6,9 +6,14 @@ class UI; // Forward declaration
 
 class Button : public Rectangle {
     public:
-        Button(UI& UIManager, const SDL_Rect& Rect) 
+        Button(
+            UI& UIManager, 
+            const SDL_Rect& Rect,
+            Rectangle& Target
+        ) 
         : Rectangle{Rect}, 
-        UIManager{UIManager} 
+        UIManager{UIManager},
+        Target{Target} 
         {
             SetColor({255, 165, 0, 255});
         }
@@ -16,5 +21,6 @@ class Button : public Rectangle {
         void OnLeftClick() override;
 
     private:
+        Rectangle& Target;
         UI& UIManager;
 };
