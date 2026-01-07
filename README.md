@@ -29,6 +29,7 @@ Roguelite/
 ├─ build/          # created later by CMake
 ├─ CMakeLists.txt
 ├─ README.md       # this file
+├─ SDLQuickReference.md       # Only for dev
 └─ .gitignore
 ```
 
