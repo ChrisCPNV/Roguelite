@@ -9,11 +9,11 @@ public:
             GetWidth(), GetHeight(), 
             SDL_WINDOW_RESIZABLE
         );
-        SDL_SetWindowMinimumSize(SDLWindow, 700, 300);
+        SDL_SetWindowMinimumSize(SDLWindow, 700, 700);
     };
     
     int GetWidth() const { return 700; }
-    int GetHeight() const { return 300; }
+    int GetHeight() const { return 700; }
 
     void Render() {
         const auto* Fmt = SDL_GetPixelFormatDetails(
