@@ -13,7 +13,9 @@ include_directories("${SDL3_PATH}/include")
 # Add your executable
 add_executable(roguelite 
 src/main.cpp
-src/Button.cpp)
+src/Button.cpp
+# src/test.cpp
+)
 
 # Link SDL3 DLL import library only
 target_link_libraries(roguelite
